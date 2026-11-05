@@ -184,7 +184,7 @@
        ============================================= */
     var CONFIG = {
       OPEN_AT: "2026-11-06T00:00:00+06:00",
-      PRICE: "",
+      PRICE: "৳1,500",
       HANDLE: "wrecker.co",
       FORM_KEY: ""
     };
@@ -254,7 +254,8 @@
 
         if (!CONFIG.FORM_KEY) {
           // no form key yet: hand the order to Instagram instead
-          var text = "Hi wrecker! I’d like to preorder the Navy “Wreck” Hoodie.\nSize: " + order.size +
+          var text = "Hi wrecker! I’d like to preorder the Navy “Wreck” Hoodie.\nPrice: " + CONFIG.PRICE +
+            "\nSize: " + order.size +
             "\nName: " + order.first_name + " " + order.last_name + "\nPhone: " + order.phone +
             "\nEmail: " + order.email + "\nAddress: " + order.address;
           try { navigator.clipboard.writeText(text).catch(function () {}); } catch (err) {}
@@ -269,12 +270,13 @@
           headers: { "Content-Type": "application/json", "Accept": "application/json" },
           body: JSON.stringify({
             access_key: CONFIG.FORM_KEY,
-            subject: "New preorder: Navy Wreck Hoodie, size " + order.size,
+            subject: "New preorder: Navy Wreck Hoodie, size " + order.size + " — " + CONFIG.PRICE,
             from_name: "wrecker website",
             name: order.first_name + " " + order.last_name,
             first_name: order.first_name, last_name: order.last_name,
             email: order.email, phone: order.phone, address: order.address,
             size: order.size, product: "Navy Wreck Hoodie",
+            price: CONFIG.PRICE,
             botcheck: $("f-bot").checked
           })
         }).then(function (r) { return r.json(); }).then(function (j) {
