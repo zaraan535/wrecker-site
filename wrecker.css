@@ -50,6 +50,19 @@ a { color: inherit; }
 img { max-width: 100%; display: block; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
+/* ---------- accessibility ---------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 /* ---------- logo ---------- */
 .logo { display: block; fill: currentColor; aspect-ratio: var(--ratio); height: auto; }
 
@@ -182,12 +195,33 @@ img { max-width: 100%; display: block; }
 .size-row label:hover { transform: translateY(-2px); }
 .size-row input:checked + label { background: var(--ink); color: var(--cream); }
 .size-row input:focus-visible + label { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.size-row input:disabled + label {
+  opacity: .28; cursor: not-allowed; text-decoration: line-through;
+  border-color: #777; transform: none;
+}
+.size-row input:disabled + label:hover { transform: none; }
+
 .chart { margin: 0 0 28px; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
 .chart summary { display: flex; justify-content: space-between; padding: 14px 0; cursor: pointer; list-style: none; font-size: 13px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
 .chart summary::-webkit-details-marker { display: none; }
 .chart summary::after { content: "+"; }
 .chart[open] summary::after { content: "\2212"; }
-.chart-body { margin: 0; padding: 0 0 16px; color: var(--ink-soft); }
+
+.chart-table-wrap { overflow-x: auto; padding-bottom: 8px; }
+.chart-table {
+  width: 100%; min-width: 520px; border-collapse: collapse;
+  font-size: 12px; line-height: 1.4; font-variant-numeric: tabular-nums;
+}
+.chart-table th, .chart-table td {
+  padding: 10px 8px; border-bottom: 1px solid rgba(13,13,13,.2);
+  text-align: center; white-space: nowrap;
+}
+.chart-table thead th { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+.chart-table th:first-child { text-align: left; }
+.chart-table tbody th { font-weight: 600; }
+.chart-note { margin: 8px 0 0; color: var(--ink-soft); font-size: 12px; }
+
 .btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
 .btn[aria-disabled="true"]:hover { transform: none; background: var(--ink); color: var(--cream); }
 .po-note { margin: 16px 0 0; max-width: 30em; font-size: 14px; color: var(--ink-soft); }
@@ -210,16 +244,11 @@ img { max-width: 100%; display: block; }
   font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
 }
 .po-photo-back { aspect-ratio: 4 / 3; }
-.size-row input:disabled + label {
-  opacity: .28; cursor: not-allowed; text-decoration: line-through;
-  border-color: #777; transform: none;
-}
-.size-row input:disabled + label:hover { transform: none; }
+
 @media (max-width: 760px) {
   .po-photo { aspect-ratio: 4 / 5; }
   .po-photo-back { aspect-ratio: 4 / 3; }
 }
-
 
 /* ---------- final hoodie photo sizing and background ---------- */
 .po-gallery { display: grid; gap: 14px; min-width: 0; }
