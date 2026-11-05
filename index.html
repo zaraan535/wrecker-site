@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>wrecker | Wrecking The Competition Since 2026</title>
-  <meta name="description" content="wrecker is a clothing brand. Preorder the Navy “Wreck” Hoodie in S, M, L and XL.">
+  <meta name="description" content="wrecker is a clothing brand. Preorder the Navy “Wreck” Hoodie in S, M, L, XL and 2XL.">
   <meta name="theme-color" content="#ece4d3">
   <meta property="og:site_name" content="wrecker">
   <meta property="og:type" content="website">
   <meta property="og:title" content="wrecker | Wrecking The Competition Since 2026">
-  <meta property="og:description" content="wrecker is a clothing brand. Preorder the Navy “Wreck” Hoodie in S, M, L and XL.">
+  <meta property="og:description" content="wrecker is a clothing brand. Preorder the Navy “Wreck” Hoodie in S, M, L, XL and 2XL.">
   <meta name="twitter:card" content="summary">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%23ece4d3%22/%3E%3Cg transform=%22translate(10 16.37) scale(0.19448)%22%3E%3Cpath fill=%22%230d0d0d%22 fill-rule=%22evenodd%22 d=%22M204.25 39.00 L202.75 39.25 L185.75 48.00 L160.50 60.00 L150.75 63.75 L147.50 64.50 L144.75 64.50 L144.00 64.25 L143.00 63.25 L143.25 61.25 L153.50 49.50 L157.50 44.00 L159.75 39.50 L159.50 37.00 L157.25 35.75 L154.50 35.75 L149.50 37.00 L147.00 38.25 L143.50 40.75 L137.75 46.50 L130.25 56.75 L127.75 61.00 L120.25 71.75 L115.50 76.25 L114.25 77.00 L112.00 77.50 L110.75 77.00 L109.75 76.00 L109.50 75.25 L109.50 72.75 L110.50 68.25 L114.75 57.50 L117.50 52.00 L122.00 44.50 L122.00 43.50 L121.00 42.75 L118.75 43.00 L113.50 45.25 L108.75 48.25 L101.75 54.00 L91.50 63.25 L84.00 69.25 L78.50 73.00 L69.00 78.00 L65.50 79.00 L60.25 78.75 L58.25 77.00 L57.75 76.00 L57.75 74.00 L59.25 70.75 L60.75 68.50 L65.00 63.50 L72.75 55.75 L82.75 47.00 L92.25 39.75 L101.25 33.75 L110.75 28.25 L111.25 27.75 L111.25 26.75 L110.00 26.00 L106.25 26.00 L106.00 26.25 L101.00 26.50 L93.25 28.25 L88.50 30.00 L87.75 30.00 L82.25 32.25 L66.50 40.00 L52.00 49.00 L41.25 57.25 L31.75 66.25 L26.00 73.50 L22.75 80.00 L21.75 84.00 L21.75 88.75 L24.00 94.25 L27.00 97.25 L30.50 99.25 L37.75 101.00 L45.25 101.00 L49.00 100.50 L59.25 97.50 L68.25 93.00 L78.25 86.50 L79.50 85.25 L84.75 81.50 L90.75 76.00 L91.75 76.25 L91.75 77.50 L90.00 83.25 L89.75 88.25 L90.75 91.75 L93.50 95.00 L93.50 95.50 L78.75 111.75 L62.25 130.75 L59.75 134.50 L60.25 134.50 L75.00 122.50 L85.75 114.75 L88.00 112.75 L105.50 100.75 L107.50 99.75 L116.25 93.75 L125.50 88.25 L133.75 82.75 L142.75 77.50 L143.50 76.75 L154.50 70.50 L160.25 66.75 L164.50 64.50 L178.50 55.75 L186.00 51.50 L188.25 49.75 L200.50 42.25Z%22/%3E%3C/g%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,27 +70,49 @@
           <fieldset class="sizes">
             <legend>Size</legend>
             <div class="size-row">
-              <input type="radio" name="size" id="size-s" value="S" required><label for="size-s">S</label>
+              <input type="radio" name="size" id="size-s" value="S" disabled><label for="size-s">S</label>
               <input type="radio" name="size" id="size-m" value="M" required><label for="size-m">M</label>
-              <input type="radio" name="size" id="size-l" value="L" required><label for="size-l">L</label>
-              <input type="radio" name="size" id="size-xl" value="XL" required><label for="size-xl">XL</label>
+              <input type="radio" name="size" id="size-l" value="L" disabled><label for="size-l">L</label>
+              <input type="radio" name="size" id="size-xl" value="XL" disabled><label for="size-xl">XL</label>
+              <input type="radio" name="size" id="size-2xl" value="2XL" disabled><label for="size-2xl">2XL</label>
             </div>
           </fieldset>
 
           <details class="chart">
             <summary>Size chart</summary>
-            <!-- TODO: replace the line below with the real size chart. A table works well, for example:
-            <table>
-              <thead><tr><th>Size</th><th>Chest (in)</th><th>Length (in)</th></tr></thead>
-              <tbody>
-                <tr><td>S</td><td>--</td><td>--</td></tr>
-                <tr><td>M</td><td>--</td><td>--</td></tr>
-                <tr><td>L</td><td>--</td><td>--</td></tr>
-                <tr><td>XL</td><td>--</td><td>--</td></tr>
-              </tbody>
-            </table>
-            -->
-            <p class="chart-body">The size chart will be posted here soon.</p>
+            <div class="chart-table-wrap">
+              <table class="chart-table">
+                <thead>
+                  <tr>
+                    <th>Measurement</th>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                    <th>2XL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Length</th>
+                    <td>25.59</td><td>26.38</td><td>27.17</td><td>27.95</td><td>28.74</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">1/2 Chest</th>
+                    <td>16.93</td><td>17.72</td><td>18.50</td><td>19.29</td><td>20.08</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">1/2 Waist</th>
+                    <td>15.75</td><td>16.54</td><td>17.32</td><td>18.11</td><td>18.90</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Sleeve Length</th>
+                    <td>7.48</td><td>7.87</td><td>8.27</td><td>8.66</td><td>9.06</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="chart-note">All measurements are in inches.</p>
           </details>
 
           <div class="field-row">
@@ -134,7 +156,6 @@
           <h2 id="brand-title">Made to be worn loud.</h2>
         </div>
         <div>
-          <!-- TODO: replace with the real brand description -->
           <p class="lead">wrecker is a clothing brand for people who don&rsquo;t follow the template. Sharp lines, bold attitude, pieces built to be lived in.</p>
           <p>Every drop is designed with intent: no filler, no fast-fashion noise. New pieces and behind-the-scenes updates go up on Instagram first.</p>
           <p><a class="btn" href="https://www.instagram.com/wrecker.co/" target="_blank" rel="noopener">See the latest drop</a></p>
