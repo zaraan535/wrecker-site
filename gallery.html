@@ -9,11 +9,10 @@
   <link rel="icon" href="wrecker-icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="wrecker.css" />
   <style>
-    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .gallery figure { margin: 0; }
+    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(16px, 3vw, 32px); max-width: 880px; }
+    .gallery figure { margin: 0; border: 1.5px solid var(--ink); background: var(--cream-deep); line-height: 0; }
     .gallery img { width: 100%; height: auto; display: block; }
-    .coming-soon { font-size: 13px; font-weight: 500; letter-spacing: 0.34em; text-transform: uppercase; color: var(--ink-soft); margin: 0; }
-    @media (max-width: 760px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .gallery { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -39,14 +38,10 @@
     </div>
 
     <section class="section">
-      <p class="coming-soon">Coming soon</p>
-
-      <!-- When the photos are ready, delete the line above and add them like this:
       <div class="gallery">
-        <figure><img src="gallery-1.webp" alt="Describe the photo" loading="lazy"></figure>
-        <figure><img src="gallery-2.webp" alt="Describe the photo" loading="lazy"></figure>
+        <figure><img src="gallery-1.jpg" alt="Back view of the navy wrecker hoodie with the wrecker logo" loading="lazy"></figure>
+        <figure><img src="gallery-2.jpg" alt="Front view of the navy wrecker hoodie" loading="lazy"></figure>
       </div>
-      -->
     </section>
   </main>
 
