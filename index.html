@@ -13,6 +13,9 @@
     .po-photo, .po-photo-back { aspect-ratio: auto !important; height: auto !important; overflow: visible !important; }
     .po-photo img { width: 100% !important; height: auto !important; object-fit: contain !important; display: block; }
 
+    /* ---- out of stock label ---- */
+    .po-soldout { display: inline-block; margin-left: 12px; padding: 4px 10px; border: 1.5px solid var(--ink); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; vertical-align: middle; }
+
     /* ---- order form ---- */
     #order-form { margin-top: 8px; display: grid; gap: 14px; max-width: 480px; }
     #order-form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -59,6 +62,7 @@
       <nav class="nav" aria-label="Main">
         <a class="nav-home" href="/" aria-current="page">Home</a>
         <a href="#preorder">Preorder</a>
+        <a href="/gallery">Gallery</a>
         <a href="/our-story">About</a>
         <a href="https://www.instagram.com/wrecker.co/" target="_blank" rel="noopener">Instagram</a>
       </nav>
@@ -92,8 +96,8 @@
         <div class="po-info">
           <p class="eyebrow">Preorder</p>
           <h2>Navy &ldquo;Wreck&rdquo; Hoodie</h2>
-          <p class="po-price">৳1,500</p>
-          <p class="po-status" id="po-status"><span class="po-dot" aria-hidden="true"></span><span>Preorders open soon</span></p>
+          <p class="po-price">৳1,500 <span class="po-soldout">Out of stock</span></p>
+          <p class="po-status" id="po-status"><span class="po-dot" aria-hidden="true"></span><span>Sold out. New stock coming soon</span></p>
 
           <fieldset class="sizes">
             <legend>Size</legend>
@@ -197,10 +201,9 @@
       main.addEventListener("click", function () { show(view === "front" ? "back" : "front"); });
     })();
 
-    /* ---- preorder ---- */
+    /* ---- preorder (currently SOLD OUT) ---- */
     (function () {
       var ACCESS_KEY = "5a62ca45-7e0e-4b4b-ae82-9c03e3412729"; // EDIT: your Web3Forms access key
-      var OPEN_AT = new Date("2026-11-06T00:00:00+06:00"); // when preorders open (Bangladesh time, +06:00)
 
       var form = document.getElementById("order-form");
       var submit = document.getElementById("order-submit");
@@ -211,19 +214,13 @@
       var size = "";
       var sending = false;
 
-      function two(n) { return n < 10 ? "0" + n : "" + n; }
-      function isOpen() { return OPEN_AT.getTime() - Date.now() <= 0; }
+      // SOLD OUT: when new stock arrives, change this to true
+      function isOpen() { return false; }
 
       function render() {
-        var ms = OPEN_AT.getTime() - Date.now();
-        var open = ms <= 0;
+        var open = isOpen();
         status.classList.toggle("open", open);
-        if (open) {
-          statusText.textContent = "Preorders are open";
-        } else {
-          var s = Math.floor(ms / 1000), d = Math.floor(s / 86400);
-          statusText.textContent = "Opens in " + (d ? d + "d " : "") + two(Math.floor(s % 86400 / 3600)) + ":" + two(Math.floor(s % 3600 / 60)) + ":" + two(s % 60);
-        }
+        statusText.textContent = open ? "Preorders are open" : "Sold out. New stock coming soon";
         summary.textContent = size
           ? "Navy \u201CWreck\u201D Hoodie, size " + size + ", \u09F31,500"
           : "Pick your size above to start your preorder.";
@@ -282,7 +279,6 @@
       });
 
       render();
-      setInterval(render, 1000);
     })();
   </script>
 </body>
