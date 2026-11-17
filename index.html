@@ -53,16 +53,13 @@
     .po-dm { margin: 14px 0 0; font-size: 14px; color: var(--ink-soft); }
     @media (max-width: 480px) { #order-form .row { grid-template-columns: 1fr; } }
 
-    /* ============ SOLD OUT: faded hoodie photos + label ============ */
-    .po-photo img { transition: opacity 0.25s ease, filter 0.7s ease; }
-    .po-gallery.soldout .po-photo img { opacity: 0.4; }
-    .po-gallery.soldout .po-thumb img { opacity: 0.5; }
-    .po-photo img.swap, .po-gallery.soldout .po-photo img.swap { opacity: 0; }
-    #po-cap { transition: opacity 0.25s ease; }
-    #po-cap.swap { opacity: 0; }
+    /* ============ SOLD OUT: label on the photo (photos stay full colour) ============ */
     .po-photo { position: relative; }
     .po-badge { display: none; position: absolute; top: 14px; left: 14px; z-index: 2; padding: 7px 12px; background: var(--cream); border: 1.5px solid var(--ink); color: var(--ink); font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; line-height: 1.2; pointer-events: none; }
     .po-gallery.soldout .po-badge { display: block; }
+    /* soft fade-in when switching front / back */
+    @keyframes photoIn { from { opacity: 0; } to { opacity: 1; } }
+    .po-photo img.fade, #po-cap.fade { animation: photoIn 0.35s ease both; }
 
     /* ============ SUBTLE MOTION ============ */
     /* logo wipes in, tagline tightens in */
@@ -86,10 +83,8 @@
     }
     .js .reveal.in { opacity: 1; translate: 0 0; }
 
-    /* buttons, thumbnails, size chart, form fields */
+    /* buttons, size chart, form fields */
     .btn:active { transform: translateY(0) scale(0.98); }
-    .po-thumb { transition: opacity 0.2s ease, border-color 0.2s ease, translate 0.3s cubic-bezier(0.2, 0.7, 0.2, 1); }
-    .po-thumb:hover { translate: 0 -3px; }
     @keyframes chartIn { from { opacity: 0; translate: 0 -6px; } to { opacity: 1; translate: 0 0; } }
     .chart[open] .chart-body { animation: chartIn 0.35s cubic-bezier(0.2, 0.7, 0.2, 1); }
     #order-form input, #order-form textarea { transition: background-color 0.25s ease, box-shadow 0.25s ease; }
@@ -270,4 +265,122 @@
       }
     })();
 
-    /* ---- front / back photo switcher (with soft
+    /* ---- front / back photo switcher ---- */
+    (function () {
+      var img = document.getElementById("po-img");
+      var cap = document.getElementById("po-cap");
+      var main = document.getElementById("po-main");
+      var thumbs = document.querySelectorAll(".po-thumb");
+      var view = "front";
+      var photos = {
+        front: { src: "hoodie-front.png", alt: "Front view of the navy Wreck hoodie", cap: "FRONT" },
+        back: { src: "hoodie-back.png", alt: "Back view of the navy Wreck hoodie", cap: "BACK" }
+      };
+      new Image().src = photos.back.src; // preload so the switch is instant
+      function show(v) {
+        view = v;
+        Array.prototype.forEach.call(thumbs, function (t) {
+          var on = t.getAttribute("data-view") === v;
+          t.classList.toggle("active", on);
+          t.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        img.src = photos[v].src;
+        img.alt = photos[v].alt;
+        cap.textContent = photos[v].cap;
+        img.classList.remove("fade");
+        cap.classList.remove("fade");
+        void img.offsetWidth; // restart the soft fade-in
+        img.classList.add("fade");
+        cap.classList.add("fade");
+      }
+      Array.prototype.forEach.call(thumbs, function (t) {
+        t.addEventListener("click", function () { show(t.getAttribute("data-view")); });
+      });
+      main.addEventListener("click", function () { show(view === "front" ? "back" : "front"); });
+    })();
+
+    /* ---- preorder (currently SOLD OUT) ---- */
+    (function () {
+      var ACCESS_KEY = "5a62ca45-7e0e-4b4b-ae82-9c03e3412729"; // EDIT: your Web3Forms access key
+
+      var form = document.getElementById("order-form");
+      var submit = document.getElementById("order-submit");
+      var summary = document.getElementById("order-summary");
+      var msg = document.getElementById("order-msg");
+      var status = document.getElementById("po-status");
+      var statusText = status.querySelector("span:last-child");
+      var gallery = document.querySelector(".po-gallery");
+      var size = "";
+      var sending = false;
+
+      // SOLD OUT: when new stock arrives, change this to true
+      // (the "Sold out" label on the photo switches off automatically)
+      function isOpen() { return false; }
+
+      function render() {
+        var open = isOpen();
+        status.classList.toggle("open", open);
+        if (gallery) gallery.classList.toggle("soldout", !open);
+        statusText.textContent = open ? "Preorders are open" : "Sold out. New stock coming soon";
+        summary.textContent = size
+          ? "Navy \u201CWreck\u201D Hoodie, size " + size + ", \u09F31,500"
+          : "Pick your size above to start your preorder.";
+        submit.disabled = sending || !(open && size);
+      }
+
+      Array.prototype.forEach.call(document.querySelectorAll('input[name="size"]'), function (r) {
+        r.addEventListener("change", function () { size = r.value; render(); });
+        if (r.checked) size = r.value;
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (!size || !isOpen()) return;
+        var f = new FormData(form);
+        var data = {
+          access_key: ACCESS_KEY,
+          subject: "New preorder: Navy WRECK Hoodie, size " + size,
+          from_name: "wrecker website",
+          product: "Navy WRECK Hoodie",
+          size: size,
+          price: "BDT 1,500",
+          first_name: f.get("first_name"),
+          last_name: f.get("last_name"),
+          email: f.get("email"),
+          phone: f.get("phone"),
+          address: f.get("address"),
+          botcheck: f.get("botcheck") ? "yes" : ""
+        };
+        sending = true;
+        submit.disabled = true;
+        submit.textContent = "Sending...";
+        msg.className = "";
+        msg.textContent = "";
+        fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(data)
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (j) {
+            if (!j.success) throw new Error(j.message || "failed");
+            var done = document.createElement("div");
+            done.id = "order-done";
+            done.innerHTML = "<strong>Your preorder is in.</strong><p>Thank you! We have your order for size " + size + " and will contact you to confirm. Questions? Message us on <a href=\"https://www.instagram.com/wrecker.co/\" target=\"_blank\" rel=\"noopener\">Instagram</a>.</p>";
+            form.parentNode.replaceChild(done, form);
+          })
+          .catch(function (err) {
+            try { console.error("Order failed:", err); } catch (x) {}
+            sending = false;
+            submit.textContent = "Place preorder";
+            render();
+            msg.className = "err";
+            msg.innerHTML = "Something went wrong, so your order was not sent (" + String(err && err.message || "network error").replace(/</g, "") + "). Please try again, or message us on <a href=\"https://ig.me/m/wrecker.co\" target=\"_blank\" rel=\"noopener\">Instagram</a>.";
+          });
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
